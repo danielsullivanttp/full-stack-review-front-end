@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   // initialize movies state as empty array
@@ -23,7 +24,7 @@ export default function Home() {
         }
         // convert response to json and assign to variable
         const result = await response.json();
-        // update movies state
+        // update playlists state
         setPlaylists(result);
       } catch (error) {
         // handle error
@@ -46,9 +47,17 @@ export default function Home() {
   // when loading is false, we render our data
   return (
     <div>
-      {playlists.map((playlist) => (
-        <div key={playlist.id}>{playlist.name}</div>
-      ))}
+      {playlists.map((playlist) => {
+        const count = playlist.Songs.length;
+        return (
+          <div key={playlist.id} className="grid">
+            <Link to={`/playlists/${playlist.id}`}>
+              <p>{playlist.name}</p>
+              <p>Songs: {playlist.Songs?.length ?? 0}</p>
+            </Link>
+          </div>
+        );
+      })}
     </div>
   );
 }
