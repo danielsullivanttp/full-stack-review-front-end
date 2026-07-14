@@ -7,6 +7,9 @@ export default function Home() {
   // initialize loading state as true
   const [loading, setLoading] = useState(true);
 
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
   // useEffect takes a callback function and a dependencies array:
   useEffect(() => {
     // fetch returns a Promise, so we need to await it.
@@ -41,14 +44,50 @@ export default function Home() {
   // useEffect will re-run whenever the values of any variables in this array change
   // since we're fetching data, we don't care about other variables here
 
+  const API_URL = "http://localhost:3000";
+
+  async function createPlaylist() {
+    try {
+      const response = await fetch(API_URL + "/api/playlists", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ name, description }),
+      });
+      const newPlaylist = await response.json();
+      setPlaylists([...playlists, newPlaylist]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setName("");
+      setDescription("");
+    }
+  }
+
   // if loading is true, render "Loading" message
   if (loading) return <div>Loading...</div>;
 
   // when loading is false, we render our data
   return (
     <div>
+      <div>
+        <label htmlFor="name">Name: </label>
+
+        <input
+          type="text"
+          value={name}
+          name="name"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <label htmlFor="description">Description: </label>
+        <input
+          type="text"
+          value={description}
+          name="description"
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button onClick={createPlaylist}>Create Playlist</button>
+      </div>
       {playlists.map((playlist) => {
-        const count = playlist.Songs.length;
         return (
           <div key={playlist.id} className="grid">
             <Link to={`/playlists/${playlist.id}`}>
