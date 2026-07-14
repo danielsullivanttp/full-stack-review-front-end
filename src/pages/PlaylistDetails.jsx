@@ -8,11 +8,14 @@ function PlaylistDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+
   useEffect(() => {
 
     async function loadPlaylist() {
       try {
-        const res = await fetch(`http://localhost:3000/api/playlists/${id}`);
+        const res = await fetch(`${API_URL}/api/playlists/${id}`);
 
         // returns 404 for invalid playlist IDs
         if (!res.ok) {

@@ -10,6 +10,8 @@ export default function Home() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
   // useEffect takes a callback function and a dependencies array:
   useEffect(() => {
     // fetch returns a Promise, so we need to await it.
@@ -18,7 +20,7 @@ export default function Home() {
     async function getData() {
       try {
         // assign a variable to the response to the fetch request
-        const response = await fetch("http://localhost:3000/api/playlists/");
+        const response = await fetch(API_URL + "/api/playlists/");
 
         // fetch will set `ok` key if request succeeds
         if (!response.ok) {
@@ -43,8 +45,6 @@ export default function Home() {
   }, []); // dependencies array
   // useEffect will re-run whenever the values of any variables in this array change
   // since we're fetching data, we don't care about other variables here
-
-  const API_URL = "http://localhost:3000";
 
   async function createPlaylist() {
     try {
