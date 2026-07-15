@@ -15,7 +15,7 @@ function PlaylistDetail() {
 
     async function loadPlaylist() {
       try {
-        const res = await fetch(`${API_URL}/api/playlists/${id}`);
+        const res = await fetch(`${API_URL}api/playlists/${id}`);
 
         // returns 404 for invalid playlist IDs
         if (!res.ok) {
