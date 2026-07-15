@@ -10,8 +10,7 @@ export default function Home() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
+  const API_URL = import.meta.env.VITE_API_KEY 
   // useEffect takes a callback function and a dependencies array:
   useEffect(() => {
     // fetch returns a Promise, so we need to await it.
@@ -20,7 +19,7 @@ export default function Home() {
     async function getData() {
       try {
         // assign a variable to the response to the fetch request
-        const response = await fetch(API_URL + "/api/playlists/");
+        const response = await fetch("https://full-stack-review-back-end.onrender.com/api/playlists");
 
         // fetch will set `ok` key if request succeeds
         if (!response.ok) {
@@ -30,6 +29,7 @@ export default function Home() {
         // convert response to json and assign to variable
         const result = await response.json();
         // update playlists state
+        console.log(result)
         setPlaylists(result);
       } catch (error) {
         // handle error
@@ -46,9 +46,10 @@ export default function Home() {
   // useEffect will re-run whenever the values of any variables in this array change
   // since we're fetching data, we don't care about other variables here
 
-  async function createPlaylist() {
+  async function createPlaylist(event) {
+    event.preventDefault();
     try {
-      const response = await fetch(API_URL + "/api/playlists", {
+      const response = await fetch("https://full-stack-review-back-end.onrender.com/api/playlists", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ name, description }),
@@ -70,22 +71,26 @@ export default function Home() {
   return (
     <div>
       <div>
-        <label htmlFor="name">Name: </label>
-
+        <form onSubmit={createPlaylist}>
+        <label htmlFor="name" >Name: </label>
         <input
+          id="name"
           type="text"
           value={name}
           name="name"
           onChange={(e) => setName(e.target.value)}
         />
+
         <label htmlFor="description">Description: </label>
-        <input
+        <input 
+          id="description"
           type="text"
           value={description}
           name="description"
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button onClick={createPlaylist}>Create Playlist</button>
+        <button>Create Playlist</button>
+        </form>
       </div>
       {playlists.map((playlist) => {
         return (
