@@ -1,7 +1,19 @@
 .grid{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   margin: 50px;
   gap: 1rem;
   padding: 2rem;
+}
+
+.playlist-card {
+  background: #2a2a2a;        
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
