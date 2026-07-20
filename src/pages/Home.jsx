@@ -54,7 +54,7 @@ export default function Home() {
       const response = await fetch(`${API_URL}/api/playlists`, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ name, description }),
+        body: JSON.stringify({ name: name, description: description }),
       });
       const newPlaylist = await response.json();
       setPlaylists([...playlists, newPlaylist]);
